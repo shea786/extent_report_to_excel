@@ -7,16 +7,25 @@ from dateutil.parser import parse
 
 
 def get_data(file_to_open=None):
+    """
+    Function to get the HTML data from ExtentReport
+    :param file_to_open:
+    :return:
+    """
     if file_to_open is None:
         file_to_open = input_filename
 
-    with open(file_to_open, encoding="utf8") as fp:
-        soup = BeautifulSoup(fp, 'lxml')
+    with open(file_to_open, encoding="utf8") as FP:
+        soup = BeautifulSoup(FP, 'lxml')
 
     return soup
 
 
 def get_features_data(soup):
+    """
+    Function to get the features data from ExtentReport
+    :param soup:
+    """
     features = soup.find_all(
         'li',
         class_='has-leaf'
@@ -40,6 +49,11 @@ def get_features_data(soup):
 
 
 def get_total_scenarios_count_for_feature(feature_scenarios):
+    """
+    Function to get the total number of scenarios for a feature
+    :param feature_scenarios:
+    :return:
+    """
     total_count = 0
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
@@ -50,6 +64,11 @@ def get_total_scenarios_count_for_feature(feature_scenarios):
 
 
 def get_failed_scenarios_count_for_feature(feature_scenarios):
+    """
+    Function to get the number of failed scenarios for a feature
+    :param feature_scenarios:
+    :return:
+    """
     failed_count = 0
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
@@ -64,6 +83,11 @@ def get_failed_scenarios_count_for_feature(feature_scenarios):
 
 
 def get_passed_scenarios_count_for_feature(feature_scenarios):
+    """
+    Function to get the number of passed scenarios for a feature
+    :param feature_scenarios:
+    :return:
+    """
     passed_count = 0
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
@@ -154,6 +178,12 @@ def get_test_case_data(feature_name, feature_scenarios):
 
 
 def export_data(report_time_stamp, path_to_save=''):
+    """
+    Function which exports the data to excel and json files.
+
+    :param report_time_stamp:
+    :param path_to_save:
+    """
     workbook_name = os.path.join('exported_data', path_to_save,
                                  f"Report - {report_time_stamp.strftime('%d_%m_%Y_%H_%M_%S')}.xlsx")
     json_name = os.path.join('exported_data', path_to_save,
