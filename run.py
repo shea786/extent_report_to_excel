@@ -174,7 +174,6 @@ def get_test_case_data(feature_name, feature_scenarios):
             }
             scenario_data.append(item)
             first_scenario_only_data.append(item)
-    return
 
 
 def export_data(report_time_stamp, path_to_save=''):
