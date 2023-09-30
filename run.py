@@ -18,8 +18,8 @@ def get_data(file_to_open=None):
     if file_to_open is None:
         file_to_open = input_filename
 
-    with open(file_to_open, encoding="utf8") as fp:
-        soup = BeautifulSoup(fp, 'lxml')
+    with open(file_to_open, encoding="utf8") as f_p:
+        soup = BeautifulSoup(f_p, 'lxml')
 
     return soup
 
@@ -198,7 +198,7 @@ def export_data(report_time_stamp, path_to_save=''):
     df1 = pd.DataFrame(features_data)
     df2 = pd.DataFrame(scenario_data)
     df3 = pd.DataFrame(first_scenario_only_data)
-    writer = pd.ExcelWriter(workbook_name, engine='xlsxwriter')
+    writer = pd.ExcelWriter(workbook_name, engine='xlsxwriter') # pylint: disable=abstract-class-instantiated
     df1.to_excel(writer, sheet_name='Feature Details')
     df2.to_excel(writer, sheet_name='Scenario Details')
     df3.to_excel(writer, sheet_name='First Scenario Details')
