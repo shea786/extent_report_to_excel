@@ -53,7 +53,10 @@ def get_failed_scenarios_count_for_feature(feature_scenarios):
     failed_count = 0
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
-            failed_count = failed_count + len(scenario.find_all('li', {'class': 'scenario', 'status': 'Fail'}))
+            failed_count = failed_count + len(scenario.find_all(
+                'li',
+                {'class': 'scenario', 'status': 'Fail'}
+            ))
         else:
             if 'fail' in scenario['status']:
                 failed_count = failed_count + 1
@@ -64,7 +67,10 @@ def get_passed_scenarios_count_for_feature(feature_scenarios):
     passed_count = 0
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
-            passed_count = passed_count + len(scenario.find_all('li', {'class': 'scenario', 'status': 'Pass'}))
+            passed_count = passed_count + len(scenario.find_all(
+                'li',
+                {'class': 'scenario', 'status': 'Pass'}
+            ))
         else:
             if 'pass' in scenario['status']:
                 passed_count = passed_count + 1
@@ -93,10 +99,16 @@ def get_test_case_data(feature_name, feature_scenarios):
                     tags = ", ".join([element.text.replace("@", "") for element in found_tags])
                 item = {
                     "feature_name": feature_name,
-                    "scenario_name": scenario_outline.find('div', {'class': 'step-name'}).find(
+                    "scenario_name": scenario_outline.find(
+                        'div',
+                        {'class': 'step-name'}
+                    ).find(
                         text=True, recursive=False
                     ).strip(),
-                    "scenario_status": scenario_outline.find('div', {'class': 'step-name'}).find('span')["title"],
+                    "scenario_status": scenario_outline.find(
+                        'div',
+                        {'class': 'step-name'}
+                    ).find('span')["title"],
                     "Priority": priority,
                     "Tags": tags
                 }
@@ -106,7 +118,11 @@ def get_test_case_data(feature_name, feature_scenarios):
         else:
             priority = ""
             tags = ""
-            found_priorities = scenario.find('span', class_='category label', text=lambda t: t in priority_values)
+            found_priorities = scenario.find(
+                'span',
+                class_='category label',
+                text=lambda t: t in priority_values
+            )
             if found_priorities:
                 priority = found_priorities.text.replace("@", "")
             found_tags = scenario.find_all(
@@ -118,9 +134,17 @@ def get_test_case_data(feature_name, feature_scenarios):
                 tags = ", ".join([element.text.replace("@", "") for element in found_tags])
             item = {
                 "feature_name": feature_name,
-                "scenario_name": scenario.find('div', {'class': 'scenario-name'}).find(text=True,
-                                                                                       recursive=False).strip(),
-                "scenario_status": scenario.find('div', {'class': 'scenario-name'}).find('span')["title"],
+                "scenario_name": scenario.find(
+                    'div',
+                    {'class': 'scenario-name'}
+                ).find(
+                    text=True,
+                    recursive=False
+                ).strip(),
+                "scenario_status": scenario.find(
+                    'div',
+                    {'class': 'scenario-name'}
+                ).find('span')["title"],
                 "Priority": priority,
                 "Tags": tags
             }
@@ -130,8 +154,10 @@ def get_test_case_data(feature_name, feature_scenarios):
 
 
 def export_data(report_time_stamp, path_to_save=''):
-    workbook_name = os.path.join('exported_data', path_to_save, f"Report - {report_time_stamp.strftime('%d_%m_%Y_%H_%M_%S')}.xlsx")
-    json_name = os.path.join('exported_data', path_to_save, f"data_{report_time_stamp.strftime('%d_%m_%Y_%H_%M_%S')}.json")
+    workbook_name = os.path.join('exported_data', path_to_save,
+                                 f"Report - {report_time_stamp.strftime('%d_%m_%Y_%H_%M_%S')}.xlsx")
+    json_name = os.path.join('exported_data', path_to_save,
+                             f"data_{report_time_stamp.strftime('%d_%m_%Y_%H_%M_%S')}.json")
     df1 = pd.DataFrame(features_data)
     df2 = pd.DataFrame(scenario_data)
     df3 = pd.DataFrame(first_scenario_only_data)
@@ -160,6 +186,8 @@ if __name__ == '__main__':
         for file in files:
             if file == input_filename:
                 data_from_html_file = get_data(os.path.join(root, file))
-                REPORT_TIME_STAMP = parse(data_from_html_file.find('span', {'class': 'suite-start-time'}).text.strip())
+                REPORT_TIME_STAMP = parse(data_from_html_file.find(
+                    'span', {'class': 'suite-start-time'}
+                ).text.strip())
                 get_features_data(data_from_html_file)
     export_data(REPORT_TIME_STAMP)
