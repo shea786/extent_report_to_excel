@@ -26,7 +26,9 @@ def get_features_data(soup):
         feature_description = feature.find('div', class_='test-heading')
         feature_tests = feature.find('div', class_='test-content')
         feature_test_items = feature_tests.find_all('div', {'class': 'scenario'})
-        get_test_case_data(feature_description.find('span', class_='test-name').text, feature_test_items)
+        get_test_case_data(
+            feature_description.find('span', class_='test-name').text,
+            feature_test_items)
         item = {
             'title': feature_description.find('span', class_='test-name').text,
             'status': feature_description.find('span', class_='test-status').text,
@@ -82,7 +84,11 @@ def get_test_case_data(feature_name, feature_scenarios):
                                                          text=lambda t: t in priority_values)
                 if found_priorities:
                     priority = found_priorities.text.replace("@", "")
-                found_tags = scenario_outline.find_all('span', class_='category label', text=lambda t: jira_project_key_prefix_for_tags in t)
+                found_tags = scenario_outline.find_all(
+                    'span',
+                    class_='category label',
+                    text=lambda t: jira_project_key_prefix_for_tags in t
+                )
                 if found_tags:
                     tags = ", ".join([element.text.replace("@", "") for element in found_tags])
                 item = {
@@ -144,12 +150,12 @@ if __name__ == '__main__':
     features_data = []
     scenario_data = []
     first_scenario_only_data = []
-    report_time_stamp = ''
+    REPORT_TIME_STAMP = ''
 
     for root, dirs, files in os.walk(input_directory_to_search):
         for file in files:
             if file == input_filename:
                 data_from_html_file = get_data(os.path.join(root, file))
-                report_time_stamp = parse(data_from_html_file.find('span', {'class': 'suite-start-time'}).text.strip())
+                REPORT_TIME_STAMP = parse(data_from_html_file.find('span', {'class': 'suite-start-time'}).text.strip())
                 get_features_data(data_from_html_file)
-    export_data(report_time_stamp)
+    export_data(REPORT_TIME_STAMP)
