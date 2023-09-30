@@ -1,0 +1,7 @@
+BeautifulSoup4==4.12.2
+lxml
+requests
+pandas==2.1.1
+openpyxl
+xlsxwriter==3.1.5
+python-dateutil~=2.8.2
