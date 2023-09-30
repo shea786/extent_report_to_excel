@@ -15,8 +15,8 @@ def get_data(file_to_open=None):
     if file_to_open is None:
         file_to_open = input_filename
 
-    with open(file_to_open, encoding="utf8") as FP:
-        soup = BeautifulSoup(FP, 'lxml')
+    with open(file_to_open, encoding="utf8") as fp:
+        soup = BeautifulSoup(fp, 'lxml')
 
     return soup
 
