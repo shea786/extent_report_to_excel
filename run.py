@@ -1,3 +1,6 @@
+"""
+    Module to convert HTML to Excel and JSON Report
+"""
 import configparser
 import os
 
