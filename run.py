@@ -102,6 +102,11 @@ def get_passed_scenarios_count_for_feature(feature_scenarios):
 
 
 def get_test_case_data(feature_name, feature_scenarios):
+    """
+    Function to get the test case data from ExtentReport
+    :param feature_name:
+    :param feature_scenarios:
+    """
     priority_values = ['@P1', '@P2', '@P3', '@P4', '@p1', '@p2', '@p3', '@p4']
     for scenario in feature_scenarios:
         if 'outline' in scenario['class']:
