@@ -109,7 +109,11 @@ def get_test_case_data(feature_name, feature_scenarios):
             found_priorities = scenario.find('span', class_='category label', text=lambda t: t in priority_values)
             if found_priorities:
                 priority = found_priorities.text.replace("@", "")
-            found_tags = scenario.find_all('span', class_='category label', text=lambda t: jira_project_key_prefix_for_tags in t)
+            found_tags = scenario.find_all(
+                'span',
+                class_='category label',
+                text=lambda t: jira_project_key_prefix_for_tags in t
+            )
             if found_tags:
                 tags = ", ".join([element.text.replace("@", "") for element in found_tags])
             item = {
