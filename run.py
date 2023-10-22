@@ -18,7 +18,7 @@ def get_data(file_to_open=None):
     if file_to_open is None:
         file_to_open = input_filename
 
-    with open(file_to_open, encoding="utf8") as f_p:
+    with open(file_to_open, 'rb') as f_p:  # Open in binary mode
         soup = BeautifulSoup(f_p, 'lxml')
 
     return soup
